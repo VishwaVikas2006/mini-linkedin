@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../_app';
 import PostCard from '../../components/PostCard';
@@ -19,13 +19,7 @@ export default function UserProfile() {
 
   const isOwnProfile = currentUser && currentUser._id === userId;
 
-  useEffect(() => {
-    if (userId) {
-      fetchUserProfile();
-    }
-  }, [userId]);
-
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`/api/users/${userId}`);
@@ -46,7 +40,13 @@ export default function UserProfile() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchUserProfile();
+    }
+  }, [userId, fetchUserProfile]);
 
   const handleUpdateBio = async () => {
     if (!token) return;
@@ -246,7 +246,7 @@ export default function UserProfile() {
                 </button>
               </p>
             ) : (
-              <p className="text-gray-600">This user hasn't posted anything yet.</p>
+              <p className="text-gray-600">This user hasn&apos;t posted anything yet.</p>
             )}
           </div>
         ) : (

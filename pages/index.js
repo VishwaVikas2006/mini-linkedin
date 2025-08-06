@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import Link from 'next/link';
 import { AuthContext } from './_app';
 import CreatePost from '../components/CreatePost';
 import PostCard from '../components/PostCard';
@@ -86,9 +87,9 @@ export default function Home() {
               <p className="text-gray-600">Be the first to share something!</p>
             ) : (
               <p className="text-gray-600">
-                <a href="/login" className="text-linkedin-600 hover:underline">
+                <Link href="/login" className="text-linkedin-600 hover:underline">
                   Login
-                </a> to start posting.
+                </Link> to start posting.
               </p>
             )}
           </div>
