@@ -1,5 +1,6 @@
 import clientPromise from '../../../lib/mongodb';
 import { verifyToken } from '../../../lib/auth';
+import { ObjectId } from 'mongodb';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -21,8 +22,12 @@ export default async function handler(req, res) {
 
     const client = await clientPromise;
     const db = client.db();
+    
+    // Convert string ID to ObjectId for MongoDB query
+    const userId = new ObjectId(decoded.userId);
+    
     const user = await db.collection('users').findOne(
-      { _id: decoded.userId },
+      { _id: userId },
       { projection: { passwordHash: 0 } }
     );
 

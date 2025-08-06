@@ -1,5 +1,5 @@
 import clientPromise from '../../../lib/mongodb';
-import { hashPassword } from '../../../lib/auth';
+import { hashPassword, generateToken } from '../../../lib/auth';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -46,6 +46,9 @@ export default async function handler(req, res) {
 
     const result = await usersCollection.insertOne(newUser);
 
+    // Generate JWT token
+    const token = generateToken(result.insertedId.toString());
+
     // Return user data without password
     const user = {
       _id: result.insertedId,
@@ -57,7 +60,8 @@ export default async function handler(req, res) {
 
     res.status(201).json({ 
       message: 'User created successfully',
-      user 
+      user,
+      token
     });
 
   } catch (error) {

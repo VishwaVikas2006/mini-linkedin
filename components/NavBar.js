@@ -13,6 +13,18 @@ export default function NavBar() {
     router.push('/');
   };
 
+  const handleJobsClick = () => {
+    alert('Jobs feature coming soon! 🚀\n\nThis would show available job opportunities and allow you to apply for positions.');
+  };
+
+  const handleMessagingClick = () => {
+    alert('Messaging feature coming soon! 💬\n\nThis would allow you to send and receive messages with other professionals.');
+  };
+
+  const handleNotificationsClick = () => {
+    alert('Notifications feature coming soon! 🔔\n\nThis would show you updates about your posts, connections, and other activities.');
+  };
+
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,17 +66,26 @@ export default function NavBar() {
                 <span>Profile</span>
               </Link>
 
-              <button className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50 transition-colors">
+              <button 
+                onClick={handleJobsClick}
+                className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50 transition-colors"
+              >
                 <Briefcase size={18} />
                 <span>Jobs</span>
               </button>
 
-              <button className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50 transition-colors">
+              <button 
+                onClick={handleMessagingClick}
+                className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50 transition-colors"
+              >
                 <MessageCircle size={18} />
                 <span>Messaging</span>
               </button>
 
-              <button className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50 transition-colors">
+              <button 
+                onClick={handleNotificationsClick}
+                className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50 transition-colors"
+              >
                 <Bell size={18} />
                 <span>Notifications</span>
               </button>
@@ -143,6 +164,24 @@ export default function NavBar() {
             >
               Profile
             </Link>
+            <button 
+              onClick={handleJobsClick}
+              className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50"
+            >
+              Jobs
+            </button>
+            <button 
+              onClick={handleMessagingClick}
+              className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50"
+            >
+              Messaging
+            </button>
+            <button 
+              onClick={handleNotificationsClick}
+              className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-linkedin-600 hover:bg-gray-50"
+            >
+              Notifications
+            </button>
           </div>
         </div>
       )}
