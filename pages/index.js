@@ -14,17 +14,21 @@ export default function Home() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
+      setError(null);
+      
       const response = await fetch('/api/posts');
       
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
       } else {
-        setError('Failed to load posts');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Posts API error:', errorData);
+        setError(errorData.error || 'Failed to load posts');
       }
     } catch (error) {
       console.error('Error fetching posts:', error);
-      setError('Failed to load posts');
+      setError('Network error: Unable to connect to server');
     } finally {
       setLoading(false);
     }

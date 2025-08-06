@@ -4,6 +4,12 @@ import { ObjectId } from 'mongodb';
 
 async function getPosts(req, res) {
   try {
+    // Check if MongoDB URI is configured
+    if (!process.env.MONGODB_URI) {
+      console.error('MONGODB_URI not configured');
+      return res.status(500).json({ error: 'Database configuration error' });
+    }
+
     const client = await clientPromise;
     const db = client.db();
     const postsCollection = db.collection('posts');
@@ -42,7 +48,17 @@ async function getPosts(req, res) {
     res.status(200).json(posts);
   } catch (error) {
     console.error('Get posts error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    
+    // Provide more specific error messages
+    if (error.name === 'MongoNetworkError') {
+      return res.status(500).json({ error: 'Database connection failed' });
+    }
+    
+    if (error.name === 'MongoServerSelectionError') {
+      return res.status(500).json({ error: 'Unable to connect to database' });
+    }
+    
+    res.status(500).json({ error: 'Failed to load posts' });
   }
 }
 
@@ -114,7 +130,7 @@ async function createPost(req, res) {
     res.status(201).json(createdPost[0]);
   } catch (error) {
     console.error('Create post error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Failed to create post' });
   }
 }
 
