@@ -43,7 +43,7 @@ export default function CreatePost({ onPostCreated }) {
   };
 
   return (
-    <div className="card mb-8">
+    <div className="card">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">

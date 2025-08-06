@@ -13,7 +13,7 @@ export default function Register() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const { login, user } = useContext(AuthContext);
+  const { register, user } = useContext(AuthContext);
   const router = useRouter();
 
   // Redirect if already logged in
@@ -158,7 +158,7 @@ export default function Register() {
                   value={formData.password}
                   onChange={handleChange}
                   className="input-field pl-10"
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                 />
               </div>
             </div>

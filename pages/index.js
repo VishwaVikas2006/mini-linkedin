@@ -44,28 +44,33 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <Loader2 className="animate-spin h-8 w-8 text-linkedin-600" />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="animate-spin h-8 w-8 text-linkedin-600" />
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-600 mb-4">{error}</p>
-        <button 
-          onClick={fetchPosts}
-          className="btn-primary"
-        >
-          Try Again
-        </button>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button 
+            onClick={fetchPosts}
+            className="btn-primary"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Welcome to Mini LinkedIn
@@ -76,13 +81,27 @@ export default function Home() {
       </div>
 
       {/* Create Post Form (only for authenticated users) */}
-      {user && <CreatePost onPostCreated={handlePostCreated} />}
+      {user && (
+        <div className="mb-8">
+          <CreatePost onPostCreated={handlePostCreated} />
+        </div>
+      )}
 
       {/* Posts Feed */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">
-          Recent Posts
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Recent Posts
+          </h2>
+          {user && (
+            <Link 
+              href={`/profile/${user._id}`}
+              className="text-linkedin-600 hover:text-linkedin-700 text-sm font-medium"
+            >
+              View My Profile →
+            </Link>
+          )}
+        </div>
         
         {posts.length === 0 ? (
           <div className="text-center py-12">
@@ -90,15 +109,23 @@ export default function Home() {
             {user ? (
               <p className="text-gray-600">Be the first to share something!</p>
             ) : (
-              <p className="text-gray-600">
-                <Link href="/login" className="text-linkedin-600 hover:underline">
-                  Login
-                </Link> to start posting.
-              </p>
+              <div className="space-y-4">
+                <p className="text-gray-600">
+                  Join the community to start posting and connecting with professionals.
+                </p>
+                <div className="flex justify-center space-x-4">
+                  <Link href="/login" className="btn-primary">
+                    Sign In
+                  </Link>
+                  <Link href="/register" className="btn-secondary">
+                    Join Now
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
         ) : (
-          <div>
+          <div className="space-y-6">
             {posts.map((post) => (
               <PostCard key={post._id} post={post} />
             ))}

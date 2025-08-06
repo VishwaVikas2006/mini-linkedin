@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext } from 'react';
 import '../styles/globals.css';
+import NavBar from '../components/NavBar';
 
 export const AuthContext = createContext();
 
@@ -124,7 +125,12 @@ export default function App({ Component, pageProps }) {
 
   return (
     <AuthContext.Provider value={value}>
-      <Component {...pageProps} />
+      <div className="min-h-screen bg-gray-50">
+        <NavBar />
+        <main className="pt-4 pb-8">
+          <Component {...pageProps} />
+        </main>
+      </div>
     </AuthContext.Provider>
   );
 } 

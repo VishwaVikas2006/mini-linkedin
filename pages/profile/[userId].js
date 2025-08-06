@@ -86,36 +86,42 @@ export default function UserProfile() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <Loader2 className="animate-spin h-8 w-8 text-linkedin-600" />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="animate-spin h-8 w-8 text-linkedin-600" />
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-600 mb-4">{error}</p>
-        <button 
-          onClick={() => router.push('/')}
-          className="btn-primary"
-        >
-          Go Home
-        </button>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button 
+            onClick={() => router.push('/')}
+            className="btn-primary"
+          >
+            Go Home
+          </button>
+        </div>
       </div>
     );
   }
 
   if (!profile) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-600 mb-4">User not found</p>
-        <button 
-          onClick={() => router.push('/')}
-          className="btn-primary"
-        >
-          Go Home
-        </button>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          <p className="text-gray-600 mb-4">User not found</p>
+          <button 
+            onClick={() => router.push('/')}
+            className="btn-primary"
+          >
+            Go Home
+          </button>
+        </div>
       </div>
     );
   }
@@ -130,7 +136,7 @@ export default function UserProfile() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Profile Header */}
       <div className="card mb-8">
         <div className="flex items-start space-x-6">
@@ -250,7 +256,7 @@ export default function UserProfile() {
             )}
           </div>
         ) : (
-          <div>
+          <div className="space-y-6">
             {posts.map((post) => (
               <PostCard key={post._id} post={post} />
             ))}

@@ -18,7 +18,7 @@ export default function PostCard({ post }) {
   };
 
   return (
-    <div className="card mb-6">
+    <div className="card">
       <div className="flex items-start space-x-3">
         {/* Author Avatar */}
         <div className="w-10 h-10 bg-linkedin-600 rounded-full flex items-center justify-center flex-shrink-0">
@@ -42,11 +42,11 @@ export default function PostCard({ post }) {
             </div>
           </div>
           
-          <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+          <p className="text-gray-800 leading-relaxed whitespace-pre-wrap mb-4">
             {post.content}
           </p>
           
-          <div className="flex items-center mt-4 text-gray-500">
+          <div className="flex items-center text-gray-500">
             <MessageCircle size={16} className="mr-1" />
             <span className="text-sm">Post</span>
           </div>
