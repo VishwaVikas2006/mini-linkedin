@@ -5,11 +5,31 @@ import CreatePost from '../components/CreatePost';
 import PostCard from '../components/PostCard';
 import { Loader2 } from 'lucide-react';
 
+// Loading skeleton component
+const PostCardSkeleton = () => (
+  <div className="card animate-pulse">
+    <div className="flex items-start space-x-3">
+      <div className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"></div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="h-4 bg-gray-300 rounded w-24"></div>
+          <div className="h-4 bg-gray-300 rounded w-16"></div>
+        </div>
+        <div className="space-y-2 mb-4">
+          <div className="h-4 bg-gray-300 rounded w-full"></div>
+          <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+        </div>
+        <div className="h-4 bg-gray-300 rounded w-16"></div>
+      </div>
+    </div>
+  </div>
+);
+
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user, loading: authLoading } = useContext(AuthContext);
 
   const fetchPosts = async () => {
     try {
@@ -20,7 +40,9 @@ export default function Home() {
       
       if (response.ok) {
         const data = await response.json();
-        setPosts(data);
+        // Filter out posts with missing author data
+        const validPosts = data.filter(post => post.author && post.author.name);
+        setPosts(validPosts);
       } else {
         const errorData = await response.json().catch(() => ({}));
         console.error('Posts API error:', errorData);
@@ -35,34 +57,25 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    // Only fetch posts after auth loading is complete
+    if (!authLoading) {
+      fetchPosts();
+    }
+  }, [authLoading]);
 
   const handlePostCreated = (newPost) => {
-    setPosts([newPost, ...posts]);
+    // Ensure the new post has valid author data before adding
+    if (newPost.author && newPost.author.name) {
+      setPosts([newPost, ...posts]);
+    }
   };
 
-  if (loading) {
+  // Show loading if auth is still loading
+  if (authLoading) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center items-center py-12">
           <Loader2 className="animate-spin h-8 w-8 text-linkedin-600" />
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center py-12">
-          <p className="text-red-600 mb-4">{error}</p>
-          <button 
-            onClick={fetchPosts}
-            className="btn-primary"
-          >
-            Try Again
-          </button>
         </div>
       </div>
     );
@@ -103,7 +116,23 @@ export default function Home() {
           )}
         </div>
         
-        {posts.length === 0 ? (
+        {loading ? (
+          <div className="space-y-6">
+            {[1, 2, 3].map((i) => (
+              <PostCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <p className="text-red-600 mb-4">{error}</p>
+            <button 
+              onClick={fetchPosts}
+              className="btn-primary"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : posts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500 mb-4">No posts yet.</p>
             {user ? (
